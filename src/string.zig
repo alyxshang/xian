@@ -197,6 +197,25 @@ pub const String = struct {
         self.characters.append(sub)
             catch return err.XianErr.WriteErr;
     }
+
+    /// Removes the last character before
+    /// the null-terminator from a string.
+    /// If the operation fails, an error
+    /// is returned.
+    pub fn pop(
+        self: *String
+    ) !void {
+        const last_idx: usize =
+            self.len() - 1;
+        const new_array = slices.removeIndex(
+            last_idx,
+            &self.characters,
+            self.allocator
+        )
+            catch return err.XianErr.WriteErr;
+        self.characters.deinit();
+        self.characters = new_array;
+    }
  
     /// Frees the memory allocated
     /// to the character array of

@@ -122,3 +122,16 @@ test "Testing the \"remove\", \"push\", and \"asSlice\" functions." {
     try edited.push('a');
     try expect(slices.compareSlices(new_str.asSlice(), "haha") == true);
 }
+
+// Testing the "pop" function.
+test "Testing the \"pop\" function." {
+    var new_str: string.String = try string
+        .String
+        .init(
+            "haha",
+            std.testing.allocator
+        );
+    defer new_str.deinit();
+    try new_str.pop();
+    try expect(new_str.len() == 3);
+ }

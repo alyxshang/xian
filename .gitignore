@@ -1,0 +1,6 @@
+.DS_Store
+zig-out
+.zig-cache
+/docs
+libroot.a
+libroot.a.o

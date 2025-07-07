@@ -1,0 +1,14 @@
+.{
+    .name = .xian,
+    .version = "0.0.0",
+    .fingerprint = 0x1e25b179a2ea7242,
+    .minimum_zig_version = "0.14.1",
+    .dependencies = .{},
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
+        "LICENSE",
+        "README.markdown",
+    },
+}

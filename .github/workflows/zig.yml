@@ -15,7 +15,7 @@ jobs:
         run: zig test src/tests.zig
 
       - name: "Generate documentation."
-        run: zig build-lib -femit-docs src/*.zig
+        run: zig build-lib -femit-docs src/root.zig
 
       - name: "Deploy the documentation."
         uses: JamesIves/github-pages-deploy-action@v4.2.5

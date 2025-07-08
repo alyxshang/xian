@@ -216,7 +216,7 @@ pub const String = struct {
         self.characters.deinit();
         self.characters = new_array;
     }
- 
+
     /// Frees the memory allocated
     /// to the character array of
     /// this entity.
@@ -226,3 +226,38 @@ pub const String = struct {
         self.characters.deinit();
     }
 };
+
+/// This function joins an array
+/// of strings given a joining 
+/// character into a new string.
+pub fn joinStrings(
+    arr: ArrayList(String),
+    joiner: String,
+    allocator: std.mem.Allocator
+) !String {
+    var char_array = ArrayList(u8)
+        .init(allocator);
+    for (arr.items, 0..) |item, i| {
+        for (item.characters.items) |str_char| {
+            if (str_char != 0){
+                char_array.append(str_char)
+                    catch return err.XianErr.WriteErr;
+            }
+        }
+        if (i != arr.items.len - 1){
+            for (joiner.characters.items) |character| {
+                if (character != 0){
+                    char_array.append(character)
+                        catch return err.XianErr.WriteErr;
+                }
+            }
+        }
+    }
+    char_array.append(0)
+        catch return err.XianErr.WriteErr;
+    const result = String.fromCharArray(
+        char_array, 
+        allocator
+    );
+    return result;
+}

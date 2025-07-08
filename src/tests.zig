@@ -8,11 +8,9 @@ const std = @import("std");
 // Defining the "ArrayList" structure.
 const ArrayList = std.ArrayList;
 
-// Aliasing the `expect` function
+// Aliasing the "expect" function
 // from the standard library.
 const expect = std.testing.expect;
-
-const expectEqual = std.testing.expectEqual;
 
 // Importing the main module
 // containing the `String`
@@ -41,7 +39,7 @@ test "Testing the \"fromArray\" function." {
             std.testing.allocator
         );
     defer arr_str.deinit();
-    try expectEqual(arr_str.len(), 5);
+    try expect(arr_str.len() == 5);
 }
 
 // Testing the "len" function.
@@ -53,7 +51,7 @@ test "Testing the \"len\" function." {
             std.testing.allocator
         );
     defer my_str.deinit();
-    try expectEqual(@as(usize, 5), my_str.len());
+    try expect(my_str.len() == 5);
 }
 
 // Testing the "contains" function.
@@ -65,7 +63,7 @@ test "Testing the \"contains\" function." {
             std.testing.allocator
         );
     defer my_str.deinit();
-    try expectEqual(true, my_str.contains('e'));
+    try expect(my_str.contains('e'));
 }
 
 // Testing the "chars" function.
@@ -86,7 +84,7 @@ test "Testing the \"chars\" function." {
     try char_arr.append('l');
     try char_arr.append('o');
     try char_arr.append(0);
-    try expectEqual(slices.compareCharArrays(my_str.chars(),char_arr),true);
+    try expect(slices.compareCharArrays(my_str.chars(),char_arr));
 }
 
 // Testing the "sliceLen" function.
@@ -134,4 +132,41 @@ test "Testing the \"pop\" function." {
     defer new_str.deinit();
     try new_str.pop();
     try expect(new_str.len() == 3);
- }
+}
+
+// Testing the "joinStrings" function.
+test "Testing the \"joinStrings\" function." {
+    var str_arr = ArrayList(string.String)
+        .init(std.testing.allocator);
+    defer str_arr.deinit();
+    var part_one: string.String = try string
+        .String
+        .init(
+            "haha",
+            std.testing.allocator
+        );
+    defer part_one.deinit();
+    var part_two: string.String = try string
+        .String
+        .init(
+            "hehe",
+            std.testing.allocator
+        );
+    defer part_two.deinit();
+    var joiner: string.String = try string
+        .String
+        .init(
+            " ",
+            std.testing.allocator
+        );
+    defer joiner.deinit();
+    try str_arr.append(part_one);
+    try str_arr.append(part_two);
+    var new_str: string.String = try string.joinStrings(
+        str_arr,
+        joiner,
+        std.testing.allocator
+    );
+    defer new_str.deinit();
+    try expect(slices.compareSlices(new_str.asSlice(), "haha hehe"));
+}

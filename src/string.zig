@@ -217,6 +217,51 @@ pub const String = struct {
         self.characters = new_array;
     }
 
+    pub fn split(
+        self: *String,
+        splitter: u8
+    ) !ArrayList(String) {
+        var arr_list = ArrayList(String)
+            .init(self.allocator);
+        var buffer = ArrayList(u8)
+            .init(self.allocator);
+        defer buffer.deinit();
+        for (self.characters.items) |character| {
+            if (character == splitter){
+                buffer.append(0)
+                    catch return err.XianErr.WriteErr;
+                var buffer_copy = ArrayList(u8)
+                    .init(self.allocator);
+                buffer_copy.appendSlice(buffer.items)
+                    catch return err.XianErr.WriteErr;
+                const new_str = String.fromCharArray(
+                    buffer_copy, 
+                    self.allocator
+                );
+                arr_list.append(new_str)
+                    catch return err.XianErr.WriteErr;
+                buffer.clearRetainingCapacity();
+            }
+            else {
+                buffer.append(character)
+                    catch return err.XianErr.WriteErr;
+            }
+        }
+        buffer.append(0)
+            catch return err.XianErr.WriteErr;
+        var buffer_copy = ArrayList(u8)
+            .init(self.allocator);
+        buffer_copy.appendSlice(buffer.items)
+            catch return err.XianErr.WriteErr;
+        const new_str = String.fromCharArray(
+            buffer_copy, 
+            self.allocator
+        );
+        arr_list.append(new_str)
+            catch return err.XianErr.WriteErr;
+        return arr_list;
+    }
+
     /// Frees the memory allocated
     /// to the character array of
     /// this entity.

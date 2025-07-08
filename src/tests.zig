@@ -170,3 +170,57 @@ test "Testing the \"joinStrings\" function." {
     defer new_str.deinit();
     try expect(slices.compareSlices(new_str.asSlice(), "haha hehe"));
 }
+
+// Testing the "split" function.
+test "Testing the \"split\" function." {
+    var orig: string.String = try string
+        .String
+        .init(
+            "haha hehe",
+            std.testing.allocator
+        );
+    defer orig.deinit();
+    var part_one: string.String = try string
+        .String
+        .init(
+            "haha",
+            std.testing.allocator
+        );
+    defer part_one.deinit();
+    var part_two: string.String = try string
+        .String
+        .init(
+            "hehe",
+            std.testing.allocator
+        );
+    defer part_two.deinit();
+    var split_list = try orig.split(
+        ' ' 
+    );
+    defer {
+        for (split_list.items) |*str| {
+            str.deinit();
+        }
+        split_list.deinit();
+    }
+    var joiner = try string
+        .String
+        .init(
+            " ",
+            std.testing.allocator
+        );
+    defer joiner.deinit();
+    var joined = try string
+        .joinStrings(
+            split_list,
+            joiner,
+            std.testing.allocator
+        );
+    defer joined.deinit();
+    try expect(
+        slices.compareSlices(
+            joined.asSlice(),
+            "haha hehe"
+        )
+    );
+}

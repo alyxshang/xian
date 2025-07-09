@@ -13,7 +13,7 @@ pub fn build(b: *std.Build) void {
     _ = b.addModule(
         "xian",
         .{
-            .root_source_file = b.path("src/root.zig"),
+            .root_source_file = b.path("./src/root.zig"),
             .target = target,
             .optimize = optimize
         }
@@ -24,7 +24,7 @@ pub fn build(b: *std.Build) void {
             .name = "xian",
             .root_module = b.createModule(
                 .{
-                    .root_source_file = b.path("src/root.zig"),
+                    .root_source_file = b.path("./src/root.zig"),
                     .target = target,
                     .optimize = optimize,
                 }

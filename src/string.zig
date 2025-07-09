@@ -173,6 +173,59 @@ pub const String = struct {
         );
     }
 
+    /// A function to retrieve a certain
+    /// character at a certain index. If
+    /// the index cannot be found, an error
+    /// is returned.
+    pub fn get(
+        self: *String,
+        index: usize
+    ) !u8 {
+        var result: u8 = 0;
+        for (self.characters.items, 0..) |char, idx| {
+            if (idx == index) {
+                result = char;
+            }
+        }
+        if (result == 0){
+            return err.XianErr.CharNoExistErr;
+        }
+        return result;
+    }
+
+    /// A function to replace a certain
+    /// character inside the string.
+    /// If the character doesn't exist, an
+    /// error is returned.
+    pub fn replace(
+        self: *String,
+        char: u8,
+        replacer: u8
+    ) !void {
+        var new_arr = ArrayList(u8)
+            .init(self.allocator);
+        var result = false;
+        for (self.characters.items) |character| {
+            if (character == char){
+                result = true;
+                new_arr.append(replacer)
+                    catch return err.XianErr.WriteErr;
+            }
+            else {
+                new_arr.append(character)
+                    catch return err.XianErr.WriteErr;
+            }
+        }
+        if (result) {
+            self.characters.deinit();
+            self.characters = new_arr;
+        }
+        else {
+            new_arr.deinit();
+            return err.XianErr.CharNoExistErr;
+        }
+    }
+
     /// Builds a string
     /// slice from the current
     /// instance of the `String`

@@ -7,5 +7,6 @@
 /// library.
 pub const XianErr = error {
     EmptyArray,
-    WriteErr
+    WriteErr,
+    CharNoExistErr
 };

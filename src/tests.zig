@@ -224,3 +224,28 @@ test "Testing the \"split\" function." {
         )
     );
 }
+
+// Testing the "get" function.
+test "Testing the \"get\" function." {
+    var sample = try string
+        .String
+        .init(
+            "hello",
+            std.testing.allocator
+        );
+    defer sample.deinit();
+    try expect(try sample.get(1) == 'e');
+}
+
+// Testing the "replace" function.
+test "Testing the \"replace\" function." {
+    var sample = try string
+        .String
+        .init(
+            "hehe",
+            std.testing.allocator
+        );
+    defer sample.deinit();
+    try sample.replace('e', 'a');
+    try expect(slices.compareSlices(sample.asSlice(), "haha"));
+}

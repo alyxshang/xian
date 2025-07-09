@@ -17,6 +17,12 @@ pub fn build(b: *std.Build) void {
             .optimize = optimize,
         }
     );
+    b.addModule(
+        "xian",
+        .{
+            .root_source_file = b.path("src/root.zig")
+        }
+    );
     const lib = b.addLibrary(
         .{
             .linkage = .static,

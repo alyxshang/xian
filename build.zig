@@ -26,7 +26,7 @@ pub fn build(b: *std.Build) void {
     const lib = b.addLibrary(
         .{
             .linkage = .static,
-            .name = "zhangshield",
+            .name = "xian",
             .root_module = lib_mod,
         }
     );

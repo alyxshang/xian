@@ -238,6 +238,35 @@ pub const String = struct {
         );
         return result;
     }
+
+    /// Appends a slice to
+    /// the string. Returns `void`
+    /// if successful and an error
+    /// if not.
+    pub fn appendSlice(
+        self: *String,
+        slice: [*:0]const u8,
+    ) !void {
+        var new_arr = ArrayList(u8)
+            .init(self.allocator);
+        for (self.characters.items) |item| {
+            if (item != 0){
+                new_arr.append(item)
+                    catch return err.XianErr.WriteErr;
+            }
+        }
+        var i: usize = 0;
+        while(slice[i] != 0){
+            const byte = slice[i];
+            new_arr.append(byte)
+                catch return err.XianErr.WriteErr;
+            i += 1;
+        }
+        new_arr.append(0)
+            catch return err.XianErr.WriteErr;
+        self.characters.deinit();
+        self.characters = new_arr;
+    }
  
     /// Appends a character to
     /// the string. Returns `void`
@@ -247,8 +276,20 @@ pub const String = struct {
         self: *String,
         sub: u8
     ) !void {
-        self.characters.append(sub)
+        var new_arr = ArrayList(u8)
+            .init(self.allocator);
+        for (self.characters.items) |item| {
+            if (item != 0){
+                new_arr.append(item)
+                    catch return err.XianErr.WriteErr;
+            }
+        }
+        new_arr.append(sub)
             catch return err.XianErr.WriteErr;
+        new_arr.append(0)
+            catch return err.XianErr.WriteErr;
+        self.characters.deinit();
+        self.characters = new_arr;
     }
 
     /// Removes the last character before

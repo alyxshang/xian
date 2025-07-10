@@ -249,3 +249,16 @@ test "Testing the \"replace\" function." {
     try sample.replace('e', 'a');
     try expect(slices.compareSlices(sample.asSlice(), "haha"));
 }
+
+// Testing the "appendSlice" function.
+test "Testing the \"appendSlice\" function." {
+    var sample = try string
+        .String
+        .init(
+            "hehe",
+            std.testing.allocator
+        );
+    defer sample.deinit();
+    try sample.appendSlice("haha");
+    try expect(slices.compareSlices(sample.asSlice(), "hehehaha"));
+}

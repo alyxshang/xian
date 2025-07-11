@@ -115,9 +115,8 @@ test "Testing the \"remove\", \"push\", and \"asSlice\" functions." {
             std.testing.allocator
         );
     defer new_str.deinit();
-    var edited: string.String = try new_str.remove(3);
-    defer edited.deinit();
-    try edited.push('a');
+    try new_str.remove(3);
+    try new_str.push('a');
     try expect(slices.compareSlices(new_str.asSlice(), "haha") == true);
 }
 

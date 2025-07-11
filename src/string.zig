@@ -150,7 +150,7 @@ pub const String = struct {
     pub fn remove(
         self: *String,
         idx: usize
-    ) !String {
+    ) !void {
         var new_chars: ArrayList(u8) = ArrayList(u8)
             .init(self.allocator);
         const length: usize = self.len();
@@ -167,10 +167,8 @@ pub const String = struct {
                 counter = counter + 1;
             }
         }
-        return String.fromCharArray(
-            new_chars, 
-            self.allocator
-        );
+        self.characters.deinit();
+        self.characters = new_chars;
     }
 
     /// A function to retrieve a certain

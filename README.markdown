@@ -18,10 +18,10 @@ To use the ***Xiàn*** package in your Zig project, run the following command
 from the root of your Zig project:
 
 ```bash
-zig fetch --save git+https://github.com/alyxshang/xian#v.0.1.0
+zig fetch --save git+https://github.com/alyxshang/xian
 ``` 
 
-This will add the ***Zhangshield*** package to your `build.zig.zon` file.
+This will add the ***Xiàn*** package to your `build.zig.zon` file.
 
 ### Using `xian` in your `build.zig`
 
